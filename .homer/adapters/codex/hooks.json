@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -X utf8 .codex/hooks/inject-homer-state.py",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

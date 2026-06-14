@@ -1,0 +1,34 @@
+# Python generated files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local virtual environments
+.venv/
+venv/
+env/
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Homer runtime cache
+.homer/cache/
+
+# Author-owned book contents are private project data by default.
+设定/
+大纲/
+正文/
+
+# Local reference repos kept beside the Homer skill during development.
+Trellis/
+oh-story-claudecode/
