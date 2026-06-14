@@ -145,6 +145,92 @@ Codex / agent 适配层：
 - `author-lore` 只作为 AI 可读 JSON 索引。
 - 显式事实、推断、候选想法、冲突项、过期设定必须分开。
 
+## 安装与开书
+
+Homer 的分发模型分两层：
+
+- 全局命令层：从 Homer 源码检出安装 `homer` 命令，或直接运行 `bin/homer`。
+- 项目本地层：每本书目录内生成 `.homer/`、`.agents/` 和 `.codex/`。
+
+像 Trellis 一样安装全局命令：
+
+```bash
+npm install -g @tophtab/homer
+homer init /path/to/my-book
+```
+
+本地源码开发时可以先用当前 checkout 模拟全局安装：
+
+```bash
+cd /path/to/homer
+npm install -g .
+homer init /path/to/my-book
+```
+
+不安装全局命令，也可以直接从源码目录创建一本新书：
+
+```bash
+/path/to/homer/bin/homer.js init /path/to/my-book
+```
+
+在当前目录初始化：
+
+```bash
+homer init
+```
+
+已有章节放在 `正文/` 下时，默认扫描为 `draft`。如果是已发布/已定稿章节，可以显式指定：
+
+```bash
+homer init /path/to/my-book --status accepted
+```
+
+默认不会覆盖目标目录中已有且内容不同的 Homer 模板文件。需要升级模板时使用：
+
+```bash
+homer init /path/to/my-book --force
+```
+
+这个命令会完成三件事：
+
+1. 复制 `.homer/` 模板。
+2. 运行 `python3 .homer/scripts/homer.py init --scan`。
+3. 运行 `python3 .homer/scripts/homer.py generate-adapters` 生成 `.agents/` 和 `.codex/`。
+
+## 发布 npm 包
+
+仓库使用 GitHub Actions 发布 `@tophtab/homer`，流程参考 Trellis：
+
+- 触发方式：发布 GitHub Release，或推送 `v*` tag。
+- 发布前检查：运行 `npm test`，再运行 `npm pack --dry-run` 检查包内容。
+- 认证方式：npm Trusted Publishing，通过 GitHub OIDC 发布，不保存 npm token。
+- npm dist-tag：版本包含 `-beta` 发布到 `beta`，包含 `-alpha` 发布到 `alpha`，包含 `-rc` 发布到 `rc`，其他版本发布到 `latest`。
+
+首次配置需要在 npm 里添加 Trusted Publisher：
+
+```text
+Package: @tophtab/homer
+Publisher: GitHub Actions
+Repository: tophtab/homer
+Workflow file: publish.yml
+Environment: leave empty unless the workflow also sets one
+```
+
+不需要在 GitHub 里配置 `NPM_TOKEN`。如果 npm 界面要求包已存在才能添加 Trusted Publisher，先用本机或一次性 token 发布第一个版本，随后立刻启用 Trusted Publishing 并删除 token。
+
+常规发布步骤：
+
+```bash
+npm version patch
+git push origin main --tags
+```
+
+或在 GitHub 上创建 `v0.1.0` 这样的 Release。发布完成后用户即可安装：
+
+```bash
+npm install -g @tophtab/homer
+```
+
 ## 基本命令
 
 初始化或修复项目：

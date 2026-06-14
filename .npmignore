@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+.homer/cache/
+
+Trellis/
+oh-story-claudecode/

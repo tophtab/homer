@@ -1,0 +1,41 @@
+{
+  "name": "@tophtab/homer",
+  "version": "0.1.0",
+  "description": "Codex skill set and project bootstrapper for single-book web-novel projects",
+  "keywords": [
+    "codex",
+    "skill",
+    "novel",
+    "web-novel",
+    "writing",
+    "cli"
+  ],
+  "homepage": "https://github.com/tophtab/homer#readme",
+  "bugs": {
+    "url": "https://github.com/tophtab/homer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tophtab/homer.git"
+  },
+  "bin": {
+    "homer": "bin/homer.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "bin",
+    "scripts",
+    ".homer",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --check bin/homer.js && python3 -m py_compile scripts/homer-install.py bin/homer .homer/scripts/homer.py && rm -rf scripts/__pycache__ bin/__pycache__ .homer/scripts/__pycache__"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}
