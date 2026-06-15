@@ -304,6 +304,8 @@ def cmd_generate_adapters(_: argparse.Namespace) -> int:
     copied: list[str] = []
     copied.extend(copy_tree_contents(adapters / "agents", ROOT / ".agents"))
     copied.extend(copy_tree_contents(adapters / "codex", ROOT / ".codex"))
+    copied.extend(copy_tree_contents(adapters / "claude", ROOT / ".claude"))
+    copied.extend(copy_tree_contents(adapters / "opencode", ROOT / ".opencode"))
     for path in copied:
         print(f"generated {path}")
     if not copied:
@@ -405,7 +407,10 @@ def build_parser() -> argparse.ArgumentParser:
     mark_current = sub.add_parser("mark-current", help="Mark accepted chapters knowledge_status=current.")
     mark_current.set_defaults(func=cmd_mark_current)
 
-    generate_adapters = sub.add_parser("generate-adapters", help="Generate .agents/.codex files from .homer/adapters.")
+    generate_adapters = sub.add_parser(
+        "generate-adapters",
+        help="Generate .agents/.codex/.claude/.opencode files from .homer/adapters.",
+    )
     generate_adapters.set_defaults(func=cmd_generate_adapters)
 
     hook_state = sub.add_parser("hook-state", help="Emit compact state for Codex hooks.")

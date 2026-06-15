@@ -67,14 +67,16 @@ Homer 结构化目录：
   adapters/
 ```
 
-Codex / agent 适配层：
+Agent 适配层：
 
 ```text
 .agents/skills/    # 共享 skill
 .codex/            # Codex 专用 skill、hook、配置
+.claude/           # Claude Code 专用 skill、command、hook、配置
+.opencode/         # OpenCode 专用 skill、command、plugin
 ```
 
-`.homer/` 是权威源。`.agents/` 和 `.codex/` 是从 `.homer/adapters/` 生成出来的适配层。
+`.homer/` 是权威源。`.agents/`、`.codex/`、`.claude/` 和 `.opencode/` 是从 `.homer/adapters/` 生成出来的适配层。
 
 ## 章节状态
 
@@ -195,7 +197,7 @@ homer init /path/to/my-book --force
 
 1. 复制 `.homer/` 模板。
 2. 运行 `python3 .homer/scripts/homer.py init --scan`。
-3. 运行 `python3 .homer/scripts/homer.py generate-adapters` 生成 `.agents/` 和 `.codex/`。
+3. 运行 `python3 .homer/scripts/homer.py generate-adapters` 生成 `.agents/`、`.codex/`、`.claude/` 和 `.opencode/`。
 
 ## 发布 npm 包
 
@@ -245,7 +247,7 @@ python3 .homer/scripts/homer.py init --scan
 python3 .homer/scripts/homer.py status
 ```
 
-从 `.homer/adapters/` 重新生成 `.agents/` 和 `.codex/`：
+从 `.homer/adapters/` 重新生成 `.agents/`、`.codex/`、`.claude/` 和 `.opencode/`：
 
 ```bash
 python3 .homer/scripts/homer.py generate-adapters
@@ -280,6 +282,15 @@ python3 .homer/scripts/homer.py mark-current
 
 `.codex/hooks/inject-homer-state.py` 会在 hooks 启用时注入简短状态，但 hooks 不是硬依赖；skill 和脚本可以独立工作。
 
+## Claude Code / OpenCode 使用方式
+
+Homer 会生成同一套业务 skill 到 Claude Code 和 OpenCode：
+
+- `.claude/skills/`、`.claude/commands/homer/`、`.claude/hooks/`、`.claude/settings.json`
+- `.opencode/skills/`、`.opencode/commands/homer/`、`.opencode/plugins/`、`.opencode/package.json`
+
+Claude Code 的 `UserPromptSubmit` hook 和 OpenCode 的 `chat.message` plugin 都只注入轻量 Homer 状态。hooks/plugin 失败或未启用时，仍可直接使用对应 skill 或运行 `python3 .homer/scripts/homer.py status`。
+
 ## 不做什么
 
 MVP 不做：
@@ -300,6 +311,8 @@ MVP 不做：
 - `.homer/`：Homer 权威源，包括 workflow、spec、state、knowledge、script、adapter 模板。
 - `.agents/skills/`：生成的共享 skill。
 - `.codex/`：生成的 Codex 专用 skill、hook、配置。
+- `.claude/`：生成的 Claude Code 专用 skill、command、hook、配置。
+- `.opencode/`：生成的 OpenCode 专用 skill、command、plugin。
 
 ## 致谢
 

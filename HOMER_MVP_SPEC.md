@@ -72,14 +72,16 @@ Homer-owned infrastructure is structured:
   adapters/
 ```
 
-Codex/Trellis-style generated adapter layer:
+Trellis-style generated adapter layer:
 
 ```text
 .agents/skills/    # Shared agent skills where applicable.
 .codex/            # Codex-specific skills, hooks, agents, config.
+.claude/           # Claude Code skills, commands, hooks, settings.
+.opencode/         # OpenCode skills, commands, plugins.
 ```
 
-`.homer/` is the canonical Homer infrastructure. `.agents/skills/` and `.codex/` are generated adapter outputs, not the source of truth.
+`.homer/` is the canonical Homer infrastructure. `.agents/`, `.codex/`, `.claude/`, and `.opencode/` are generated adapter outputs, not the source of truth.
 
 ## Chapter State
 
@@ -316,13 +318,15 @@ Imported completed/serialized works default to accepted unless the user says spe
 
 After setup, if accepted chapters exist, generate public lore and tracking.
 
-## Codex Adapter
+## Agent Adapters
 
-Implement Codex support following Trellis conventions:
+Implement platform support following Trellis conventions:
 
 - Canonical Homer infrastructure lives under `.homer/`.
 - Shared skills may be generated under `.agents/skills/`.
 - Codex-specific skills, hooks, agents, and config may be generated under `.codex/`.
+- Claude Code-specific skills, commands, hooks, and settings may be generated under `.claude/`.
+- OpenCode-specific skills, commands, plugins, and package metadata may be generated under `.opencode/`.
 - Adapter files are generated from Homer templates/specs, not treated as the source of truth.
 - Hooks are included following Trellis-style organization. Hooks must support the workflow but skills/scripts must still work if hooks are not enabled.
 
